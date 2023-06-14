@@ -1,13 +1,15 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-underscore-dangle */
+const autoBind = require('auto-bind');
 
 class UsersHandler {
   constructor(service, validator) {
     this._service = service;
     this._validator = validator;
 
-    this.postUserHandler = this.postUserHandler.bind(this);
-    this.getUserByIdHandler = this.getUserByIdHandler.bind(this);
+    autoBind(this);
   }
 
   async postUserHandler(request, h) {

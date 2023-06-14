@@ -21,16 +21,23 @@ const AuthenticationsService = require('./services/postgres/AuthenticationsServi
 const TokenManager = require('./tokenize/TokenManager');
 const AuthenticationsValidator = require('./validator/authentications');
 
-const playlist = require('./api/playlist');
-const playlistValidator = require('./validator/playlist');
-const playlistService = require('./services/postgres/PlaylistService');
+const playlists = require('./api/playlists');
+const PlaylistsService = require('./services/postgres/PlaylistsService');
+const PlaylistValidator = require('./validator/playlist');
+
+const collaborations = require('./api/collaborations');
+const CollaborationsService = require('./services/postgres/CollaborationsService');
+const CollaborationsValidator = require('./validator/collaborations');
+
 const ClientError = require('./exceptions/ClientError');
 
 const init = async () => {
+  const authenticationsService = new AuthenticationsService();
+  const usersService = new UsersService();
   const albumsService = new AlbumsService();
   const songsService = new SongsService();
-  const usersService = new UsersService();
-  const authenticationsService = new AuthenticationsService();
+  const collaborationsService = new CollaborationsService();
+  const playlistsService = new PlaylistsService(collaborationsService);
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -83,7 +90,7 @@ const init = async () => {
     {
       plugin: users,
       options: {
-        service: UsersService,
+        service: usersService,
         validator: UsersValidator,
       },
     },
@@ -97,11 +104,18 @@ const init = async () => {
       },
     },
     {
-      plugin: playlist,
+      plugin: playlists,
       options: {
-        service: playlistService,
-        songsService,
-        validator: playlistValidator,
+        service: playlistsService,
+        validator: PlaylistValidator,
+      },
+    },
+    {
+      plugin: collaborations,
+      options: {
+        playlistsService,
+        collaborationsService,
+        validator: CollaborationsValidator,
       },
     },
   ]);

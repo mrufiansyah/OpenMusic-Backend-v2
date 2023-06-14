@@ -3,7 +3,7 @@
 exports.shorthands = undefined;
 
 exports.up = (pgm) => {
-  pgm.addConstraint('songs', 'fk_songs.albumId_album.id', 'FOREIGN KEY ("albumId") REFERENCES album(id) ON DELETE CASCADE');
+  pgm.addConstraint('songs', 'fk_songs.albumId_album.id', 'FOREIGN KEY ("albumId") REFERENCES albums(id) ON DELETE CASCADE');
 };
 
 exports.down = (pgm) => {
