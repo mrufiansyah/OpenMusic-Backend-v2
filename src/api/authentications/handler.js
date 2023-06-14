@@ -9,9 +9,9 @@ class AuthenticationsHandler {
     this._tokenManager = tokenManager;
     this._validator = validator;
 
-    this.postAuthenticationsHandler = this.postAuthenticationsHandler.bind(this);
-    this.putAuthenticationsHandler = this.postAuthenticationsHandler.bind(this);
-    this.deleteAuthenticationsHandler = this.postAuthenticationsHandler.bind(this);
+    this.postAuthenticationHandler = this.postAuthenticationHandler.bind(this);
+    this.putAuthenticationHandler = this.postAuthenticationHandler.bind(this);
+    this.deleteAuthenticationHandler = this.postAuthenticationHandler.bind(this);
   }
 
   // post auth handler
